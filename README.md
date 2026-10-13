@@ -4,7 +4,7 @@
 
 This is not a tech demo that "sort of runs". It is a mobile version polished for daily play, from your first character all the way through the endgame.
 
-Platforms: iPhone / iPad (iOS 26 and later) · Game version: Switch release with Reign of the Warlock, 1.0.34.0 (corresponds to PC version 3.3.94012) · English / 中文 · License: MIT · **Bring your own game files**
+Platforms: iPhone / iPad (iOS 26 and later) · Mac (Apple silicon, macOS 13 and later, first version) · Game version: Switch release with Reign of the Warlock, 1.0.34.0 (corresponds to PC version 3.3.94012) · English / 中文 · License: MIT · **Bring your own game files**
 
 中文: [README.zh-CN.md](README.zh-CN.md)
 
@@ -231,6 +231,17 @@ The first time you open the app on your phone, it asks for the "game resource fo
 
 `./setup.sh check` is a health check: it reports the state of this computer, the tools, the game files and the signing configuration item by item, and for everything missing it says where to get it and which command to run next; it changes nothing. If what you have is a whole game package (`.xci` / `.nsp`), `./setup.sh <game package> <prod.keys>` first extracts the game files into place and then carries on (install hactool first). Run `./setup.sh` again after every update to a new commit: it rebuilds the patched binaries and the shader library for the current sources (steps that are already up to date are skipped). It also rewrites three files in the repository that change with your local tool fingerprints (`dm/gfx/tools/dmsh_chain.lock`, `dm/gfx/nvn/dmsh_chain.h`, `dm/gfx/nvn/c1_full.tsv`); that is expected, do not commit them.
 
+### Playing directly on a Mac
+
+After the same `./setup.sh`, one more command produces a native macOS App that starts on double-click and works with keyboard, mouse and gamepad, with no developer account needed:
+
+```bash
+source ~/dm-work/build/cache/dm/venv/bin/activate
+dm/tools/mac_app.sh        # produces ~/dm-work/out/macapp/D2R Mobile.app
+```
+
+This is a first version: it uses the original gamepad UI, with the keyboard mapped to the full set of gamepad buttons. Nobody has actually sat down and played it yet — the key mapping, the known gaps and what to do on first launch are in [docs/MAC.md](docs/MAC.md).
+
 ### Without a Mac: the shell plus the packaging tool
 
 Download our prebuilt "shell" package (`D2RMobile-shell.ipa`), which contains no game content, from this repository's [Releases page](https://github.com/jhaizhou-ops/d2r-mobile/releases), add your own game files, make the install package on Windows or Linux, then sign and install it with a sideloading tool. On this route only, because the computer making the package has no Apple shader compiler, the **first launch** on the phone spends about 7 minutes compiling shaders (once, with a progress bar); a package built with Xcode has no such step. The steps, and how far each one has been verified, are in [docs/NO_XCODE.md](docs/NO_XCODE.md).
@@ -264,6 +275,7 @@ Download our prebuilt "shell" package (`D2RMobile-shell.ipa`), which contains no
 | [docs/GAME_FILES.md](docs/GAME_FILES.md) | Game files: which ones you need, how to get them from your own console, where to put them |
 | [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) | Dependencies and third-party licenses |
 | [docs/NO_XCODE.md](docs/NO_XCODE.md) | Building without Xcode and without a Mac |
+| [docs/MAC.md](docs/MAC.md) | Playing on a Mac: building the macOS App, key mapping, known gaps |
 | [docs/DERIVED.md](docs/DERIVED.md) | Game-related material in this repository: what is here, what is not, and why |
 
 ## Legal
